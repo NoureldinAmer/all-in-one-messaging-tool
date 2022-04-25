@@ -24,5 +24,19 @@
             "filled_bar":"#f4251b",
             "unfilled_bar":"#CCCCCC"
         }
+    },
+    "@message_label":
+        {
+            "colours":
+            {
+                "normal_text": "#3ac961"
+            }
+    },
+    "@error_message_label":
+    {
+        "colours":
+            {
+                "normal_text": "#ff2b1c"
+            }
     }
 }
