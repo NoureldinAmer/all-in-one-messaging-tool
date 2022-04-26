@@ -5,6 +5,8 @@ from pygame_gui import elements
 import time
 
 def contact_page():
+    user = []
+    users = []
     pygame.init()
     pygame.display.set_caption('Quick Start')
     window_surface = pygame.display.set_mode((800, 600))
@@ -44,7 +46,7 @@ def contact_page():
                             object_id='@message_label',
                             visible=0) 
 
-    add_another_account_message = elements.UILabel(relative_rect=pygame.Rect(480,250,250,50),
+    add_another_account_message = elements.UILabel(relative_rect=pygame.Rect(45,161,200,50),
                             manager=manager,
                             text="click add to add another account",
                             object_id='@message_label',
@@ -74,6 +76,10 @@ def contact_page():
                     print("pressed back")
                     is_running = False
 
+            if event.type == pygame_gui.UI_BUTTON_ON_HOVERED and event.ui_element == add_button:
+                add_another_account_message.visible = 1
+                add_another_account_message.set_active_effect(pygame_gui.TEXT_EFFECT_FADE_OUT)
+
             if event.type == pygame_gui.UI_BUTTON_PRESSED and event.ui_element == add_button:
                 if input.get_text() != "":
                     print(input.get_text())
@@ -81,7 +87,6 @@ def contact_page():
                     success_message.visible = 1
                     add_button.visible = 1
                     success_message.set_active_effect(pygame_gui.TEXT_EFFECT_FADE_OUT)
-                    add_another_account_message.set_active_effect(pygame_gui.TEXT_EFFECT_FADE_OUT)
                     print("success")
                     input.set_text("")
                     
