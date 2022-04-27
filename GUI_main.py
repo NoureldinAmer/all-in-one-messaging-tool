@@ -48,7 +48,8 @@ def main_page():
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == add_button:
-                    contact_page()
+                    list_of_users = contact_page()
+                    print(list_of_users)
             
             if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED or event.type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == text_input or event.ui_element == send_button:
