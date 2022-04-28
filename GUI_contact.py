@@ -2,7 +2,7 @@ from unicodedata import name
 import pygame
 import pygame_gui
 from pygame_gui import elements
-import time
+import export_contacts
 
 def contact_page():
     #method will return a 2d array of users
@@ -27,9 +27,6 @@ def contact_page():
                                                 text='add another user',
                                                 manager=manager)
 
-    save_button = elements.UIButton(relative_rect=pygame.Rect((100, 20), (70, 50)),
-                                                text='save',
-                                                manager=manager)
 
     accounts = ["discord", "gmail"]
     account_type_dropDownMenu = elements.UIDropDownMenu(options_list=accounts,
@@ -109,20 +106,16 @@ def contact_page():
                 if event.ui_element == back_button:
                     print("pressed back")
                     is_running = False
-                    return users
                 
                 if event.ui_element == add_another_user_button:
-                    users.append(user)
-                    user.clear()
-                    account_type_dropDownMenu.disable()
+                    name_input.enable()
                     name_input.set_text("")
+                    name_add_button.enable()
+                    account_type_dropDownMenu.disable()
+                    add_another_user_button.disable()
                     input.visible = 0
                     instruct_message.visible = 0
                     add_button.visible = 0
-
-                if event.ui_element == add_another_user_button:
-                    users.append(user)
-                    user.clear()
 
             if event.type == pygame_gui.UI_BUTTON_ON_HOVERED and event.ui_element == add_button:
                 add_another_account_message.visible = 1
@@ -134,6 +127,8 @@ def contact_page():
                     print(name_input.get_text())
                     print("success")
                     user.update({'name':name_input.get_text()})
+                    name_input.disable()
+                    name_add_button.disable()
                     account_type_dropDownMenu.enable()
                 else:
                         print("error")
@@ -151,13 +146,15 @@ def contact_page():
                     add_button.visible = 1
                     success_message.set_active_effect(pygame_gui.TEXT_EFFECT_FADE_OUT)
                     #list storing all user details
-                    user.update({f'account{i}':account_type_dropDownMenu.selected_option})
-                    user.update({'username{i}':input.get_text()})
-                    i+=1
+                    user.update({f'account':account_type_dropDownMenu.selected_option})
+                    user.update({'username':input.get_text()})
+                    user_as_list = user.values()
+                    export_contacts.export_contact(user_as_list)
                     #users.append(user)
-                    print(user)
+                    print(user_as_list)
                     print("success")
                     input.set_text("")
+                    add_another_user_button.enable()
                 else:
                     print("error")
                     error_message.visible = 1
