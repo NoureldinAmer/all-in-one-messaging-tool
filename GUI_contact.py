@@ -2,14 +2,14 @@ from unicodedata import name
 import pygame
 import pygame_gui
 from pygame_gui import elements
-import export_contacts
+import csv_handler
 
 def contact_page():
     #method will return a 2d array of users
     users = []
     user = {}
     pygame.init()
-    pygame.display.set_caption('Quick Start')
+    pygame.display.set_caption('Add Contact')
     window_surface = pygame.display.set_mode((800, 600))
 
     background = pygame.Surface((800, 600))
@@ -28,7 +28,7 @@ def contact_page():
                                                 manager=manager)
 
 
-    accounts = ["discord", "gmail"]
+    accounts = ["discord", "email"]
     account_type_dropDownMenu = elements.UIDropDownMenu(options_list=accounts,
                                                         starting_option="choose account type",
                                                         relative_rect=pygame.Rect(90,200,225,30),
@@ -149,7 +149,7 @@ def contact_page():
                     user.update({f'account':account_type_dropDownMenu.selected_option})
                     user.update({'username':input.get_text()})
                     user_as_list = user.values()
-                    export_contacts.export_contact(user_as_list)
+                    csv_handler.export_contact(user_as_list)
                     #users.append(user)
                     print(user_as_list)
                     print("success")
