@@ -6,7 +6,7 @@ from selenium.webdriver import ChromeOptions, Chrome
 from selenium.webdriver.chrome.options import Options
 import time
 
-def send_to_discord(recepient: str, msg: str) -> str:
+def send_to_discord(recepient: str, msg: str) -> bool:
     if recepient == None or msg == "":
         return
     try:
@@ -48,10 +48,12 @@ def send_to_discord(recepient: str, msg: str) -> str:
         sender.send_keys(msg)
         sender.send_keys(Keys.RETURN)
         print("discord: success")
+        return True
     except:
         print("discord: fail")
+        return False
 
-def send_email(msg: str, reciever: str) -> str:
+def send_email(msg: str, reciever: str) -> bool:
     if reciever == None or msg == "":
         return
     try:
@@ -66,8 +68,9 @@ def send_email(msg: str, reciever: str) -> str:
 
         server.sendmail(IMPORTED_USERNAME, reciever, msg)
         print('email: success')
-        return 'success'
+        return True
     except:
         print("email: fail")
+        return False
 if __name__ == '__main__':
     send_to_discord("ahamed", "lol, ball drooler")

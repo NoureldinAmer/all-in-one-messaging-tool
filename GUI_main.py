@@ -46,6 +46,30 @@ user_dropdown_menu = elements.UIDropDownMenu(relative_rect=pygame.Rect(100, 260,
                                             manager=manager,
                                             options_list=contacts)
 
+error_discord_message = elements.UILabel(relative_rect=pygame.Rect(100,340,375,50),
+                            text="fail! did not send message to user's discord",
+                            manager=manager,
+                            object_id='@error_message_label',
+                            visible=0)
+
+success_discord_message = elements.UILabel(relative_rect=pygame.Rect(100,340,375,50),
+                            text="successfully sent message to user's discord",
+                            manager=manager,
+                            object_id='@message_label',
+                            visible=0)
+
+error_email_message = elements.UILabel(relative_rect=pygame.Rect(100,370,375,50),
+                            text="fail! did not send message to user's email",
+                            manager=manager,
+                            object_id='@error_message_label',
+                            visible=0)
+
+success_email_message = elements.UILabel(relative_rect=pygame.Rect(100,370,375,50),
+                            text="successfully sent message to user's email",
+                            manager=manager,
+                            object_id='@message_label',
+                            visible=0)
+
 def main_page():
     clock = pygame.time.Clock()
     is_running = True
@@ -69,6 +93,7 @@ def main_page():
                     selected = user_dropdown_menu.selected_option
                     add_button.disable()
                     print(selected)
+                    send_button.enable()
             
             if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED or event.type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == text_input or event.ui_element == send_button:
@@ -78,17 +103,33 @@ def main_page():
                         reciever = user_dropdown_menu.selected_option
                         input_message = text_input.get_text()
                         text_input.set_text("")
+                        #disable buttons while sinding
                         text_input.disable()
-                        message.visible = 1
-                        message.set_active_effect(pygame_gui.TEXT_EFFECT_TYPING_APPEAR)
+                        send_button.disable()
+                        
                         
                         contact_details = import_contact_detals(reciever)
-                        send_to_discord(contact_details["dicord_username"],msg=input_message)
+                        sending_to_discord = send_to_discord(contact_details["dicord_username"],msg=input_message)
+                        if sending_to_discord:
+                            success_discord_message.visible = 1
+                        else:
+                            error_discord_message.visible = 1
+
                         print(contact_details["dicord_username"])
-                        send_email(msg=input_message, reciever=contact_details["email_address"])
+                        sending_to_email = send_email(msg=input_message, reciever=contact_details["email_address"])
                         
+                        if sending_to_email:
+                            success_email_message.visible = 1
+                        else:
+                            error_email_message.visible = 1
+
+
+                            
+                        #enable buttons after sending
                         add_button.enable()
                         user_dropdown_menu.enable()
+                        text_input.enable()
+
                     elif text_input.get_text()!= "" and user_dropdown_menu.selected_option == "send to...":
                         error_message.set_text("error: contact not selected")
                         error_message.visible = 1
