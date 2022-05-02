@@ -5,10 +5,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ChromeOptions, Chrome
 from selenium.webdriver.chrome.options import Options
 import time
+from urllib import response
+import requests
+import tweepy
 
 def send_to_discord(recepient: str, msg: str) -> bool:
     if recepient == None or msg == "":
-        return
+        return False
     try:
         PATH = "drivers/chromedriver"
         df = pd.read_csv('credentials.csv')
@@ -55,7 +58,7 @@ def send_to_discord(recepient: str, msg: str) -> bool:
 
 def send_email(msg: str, reciever: str) -> bool:
     if reciever == None or msg == "":
-        return
+        return False
     try:
         df = pd.read_csv('credentials.csv')
         IMPORTED_USERNAME =  df.iloc[0,1]
@@ -72,5 +75,42 @@ def send_email(msg: str, reciever: str) -> bool:
     except:
         print("email: fail")
         return False
+
+
+
+def send_to_slack(recepient: str, msg: str) -> bool:
+    if recepient == None or msg == "":
+        return False
+    try:
+        base_url = ''
+        msg = f"@{recepient} {msg}"
+        
+        df = pd.read_csv('credentials.csv')
+        base_url = df.iloc[2,1]
+        print(base_url)
+
+        data = '{"text": "%s" }' % msg
+        requests.post(base_url,data)
+        return True
+    except:
+        return False
+
+def send_to_twitter(recepient: str, msg: str) -> bool:
+    if recepient == None or msg == "":
+        return False
+    df = pd.read_csv('credentials.csv')
+    API_KEY =  df.iloc[3,1]
+    API_KEY_SECRET= df.iloc[3,2]
+    ACCESS_TOKEN = df.iloc[3,3]
+    ACCESS_TOKEN_SECRET = df.iloc[3,4]
+    authenticator = tweepy.OAuthHandler(API_KEY,API_KEY_SECRET)
+    authenticator.set_access_token(ACCESS_TOKEN,ACCESS_TOKEN_SECRET)
+    api = tweepy.API(authenticator,wait_on_rate_limit=True)
+    
+    profile_id = api.get_friend_ids()
+    print(profile_id)
+    api.send_direct_message()
+
+
 if __name__ == '__main__':
-    send_to_discord("ahamed", "lol, ball drooler")
+    send_to_twitter("Clement", "hello")
