@@ -70,6 +70,18 @@ success_email_message = elements.UILabel(relative_rect=pygame.Rect(100,370,375,5
                             object_id='@message_label',
                             visible=0)
 
+error_slack_message = elements.UILabel(relative_rect=pygame.Rect(100,400,375,50),
+                            text="fail! did not send message to user's slack",
+                            manager=manager,
+                            object_id='@error_message_label',
+                            visible=0)
+
+success_slack_message = elements.UILabel(relative_rect=pygame.Rect(100,400,375,50),
+                            text="successfully sent message to user's slack",
+                            manager=manager,
+                            object_id='@message_label',
+                            visible=0)
+
 def main_page():
     clock = pygame.time.Clock()
     is_running = True
@@ -110,19 +122,24 @@ def main_page():
                         
                         contact_details = import_contact_detals(reciever)
                         sending_to_discord = send_to_discord(contact_details["dicord_username"],msg=input_message)
+                        sending_to_email = send_email(msg=input_message, reciever=contact_details["email_address"])
+                        sending_to_slack = send_to_slack(recepient=contact_details["slack_username"], message=input_message)
+
                         if sending_to_discord:
                             success_discord_message.visible = 1
                         else:
                             error_discord_message.visible = 1
-
-                        print(contact_details["dicord_username"])
-                        sending_to_email = send_email(msg=input_message, reciever=contact_details["email_address"])
+                        
                         
                         if sending_to_email:
                             success_email_message.visible = 1
                         else:
                             error_email_message.visible = 1
 
+                        if sending_to_slack:
+                            success_slack_message.visible = 1
+                        else:
+                            error_slack_message.visible = 1
 
                             
                         #enable buttons after sending
