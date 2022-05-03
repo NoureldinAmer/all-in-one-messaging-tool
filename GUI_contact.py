@@ -28,7 +28,7 @@ def contact_page():
                                                 manager=manager)
 
 
-    accounts = ["discord", "email", "slack"]
+    accounts = ["discord", "email", "slack", "twitter"]
     account_type_dropDownMenu = elements.UIDropDownMenu(options_list=accounts,
                                                         starting_option="choose account type",
                                                         relative_rect=pygame.Rect(90,200,225,30),
