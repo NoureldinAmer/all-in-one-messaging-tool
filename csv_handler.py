@@ -23,7 +23,8 @@ def import_contact_detals(contact_name: str) -> dict:
         "name" : contact_name,
         "dicord_username" : None,
         "email_address" : None,
-        "slack_username" : None
+        "slack_username" : None,
+        "twitter_username" : None,
     }
     df = pd.read_csv('contacts.csv')
     print(len(df))
@@ -34,6 +35,8 @@ def import_contact_detals(contact_name: str) -> dict:
             contact_details["email_address"] = df.iloc[i][2]
         elif df.iloc[i][0] == contact_name and df.iloc[i][1] == "slack":
             contact_details["slack_username"] = df.iloc[i][2]
+        elif df.iloc[i][0] == contact_name and df.iloc[i][1] == "twitter":
+            contact_details["twitter_username"] == df.iloc[i][2]
     return contact_details
 
 
