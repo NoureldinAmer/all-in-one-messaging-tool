@@ -97,20 +97,23 @@ def send_to_slack(recepient: str, msg: str) -> bool:
 
 def send_to_twitter(recepient: str, msg: str) -> bool:
     if recepient == None or msg == "":
+            return False
+    try:    
+        df = pd.read_csv('credentials.csv')
+        API_KEY =  df.iloc[3,1]
+        API_KEY_SECRET= df.iloc[3,2]
+        ACCESS_TOKEN = df.iloc[3,3]
+        ACCESS_TOKEN_SECRET = df.iloc[3,4]
+        authenticator = tweepy.OAuthHandler(API_KEY,API_KEY_SECRET)
+        authenticator.set_access_token(ACCESS_TOKEN,ACCESS_TOKEN_SECRET)
+        api = tweepy.API(authenticator,wait_on_rate_limit=True)
+        
+        profile_id = api.get_friend_ids(recepient)
+        print(profile_id)
+        api.send_direct_message(profile_id,msg)
+    except:
         return False
-    df = pd.read_csv('credentials.csv')
-    API_KEY =  df.iloc[3,1]
-    API_KEY_SECRET= df.iloc[3,2]
-    ACCESS_TOKEN = df.iloc[3,3]
-    ACCESS_TOKEN_SECRET = df.iloc[3,4]
-    authenticator = tweepy.OAuthHandler(API_KEY,API_KEY_SECRET)
-    authenticator.set_access_token(ACCESS_TOKEN,ACCESS_TOKEN_SECRET)
-    api = tweepy.API(authenticator,wait_on_rate_limit=True)
-    
-    profile_id = api.get_friend_ids()
-    print(profile_id)
-    api.send_direct_message()
 
 
 if __name__ == '__main__':
-    send_to_twitter("Clement", "hello")
+    send_to_slack("Clement", "hello")
