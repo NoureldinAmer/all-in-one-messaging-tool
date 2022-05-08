@@ -18,4 +18,5 @@ All-in-one messaging tool currently supports:
 - `pip install selenium` (windows) or `pip3 install selenium` (MacOS)
 
 ## Demo
-![preview](assets/lv_0_20220507130753.mp4)
+https://user-images.githubusercontent.com/84950398/167281503-69ebe6c5-35cb-4fd1-95c8-4979b438f411.mp4
+
