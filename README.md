@@ -1,5 +1,5 @@
 # All-in-one messaging tool
-A user friendly program that gives the users the ability to send a message to multiple of their friends accounts.
+A user friendly program that gives the users the ability to send a message to multiple of their friends accounts (watch video below for demo).
 
 All-in-one messaging tool currently supports:
 - twitter
